@@ -1,0 +1,28 @@
+version: '3'
+services:
+  mysql-db:
+    # 指定容器的名称
+    container_name: nlq-mysql
+    # 指定镜像和版本
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      # 配置root密码
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: llm
+      MYSQL_USER: llmdata
+      MYSQL_PASSWORD: llmdata
+    volumes:
+      # 挂载数据目录
+      - mysql-data:/var/lib/mysql
+      # 挂载配置文件目录
+      #- "./mysql/config:/etc/mysql/conf.d"
+      - ./initial_data:/opt/data
+    networks:
+      - opensearch-net
+volumes:
+  mysql-data:
+networks:
+  opensearch-net:
